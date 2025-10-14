@@ -15,11 +15,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       @endif
-
+        
       <div class="row mb-4">
         <div class="col">1 of 3</div>
         <div class="col-6">
           <h1>Proyectos</h1>
+          <a href="{{ route('proyectos.create') }}" class="btn btn-primary">Nuevo Proyecto</a>
         </div>
         <div class="col">3 of 3</div>
       </div>
@@ -34,6 +35,7 @@
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Fecha creación</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +45,13 @@
                   <td>{{ $proyecto->nombre }}</td>
                   <td>{{ $proyecto->descripcon }}</td>
                   <td>{{ $proyecto->created_at }}</td>
+                  <td>
+                    <form action="{{ route('proyectos.destroy', $proyecto->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar el proyecto: {{ $proyecto->nombre }}?')">Eliminar</button>
+                    </form>
+                  </td>
                 </tr>
               @endforeach
             </tbody>

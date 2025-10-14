@@ -21,6 +21,11 @@ class ProyectosController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcon' => 'required|string',
+        ]);
+        
         Proyectos::create([
             'nombre' => $request->nombre,
             'descripcon' => $request->descripcon,
@@ -37,16 +42,30 @@ class ProyectosController extends Controller
 
     public function edit(Proyectos $proyectos)
     {
-        //
+        return view("edit", ['proyecto' => $proyectos]);
     }
 
     public function update(Request $request, Proyectos $proyectos)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcon' => 'required|string',
+        ]);
+        
+        $proyectos->update([
+            'nombre' => $request->nombre,
+            'descripcon' => $request->descripcon,
+        ]);
+
+        return redirect()->route('proyectos.index')
+            ->with('success', 'Proyecto actualizado satisfactoriamente.');
     }
 
     public function destroy(Proyectos $proyectos)
     {
-        //
+        $proyectos->delete();
+
+        return redirect()->route('proyectos.index')
+            ->with('success', 'Proyecto eliminado satisfactoriamente.');
     }
 }
